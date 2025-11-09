@@ -3,6 +3,7 @@
   border: 1px solid var(--color-primary);
   border-radius: var(--radius-lg);
   transition: all 0.3s ease-in-out;
+  padding: var(--spacing-1) var(--spacing-2);
 }
 
 .filled:hover {

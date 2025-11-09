@@ -1,0 +1,29 @@
+.adversaryCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: var(--spacing-2);
+}
+
+.textContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-half);
+}
+
+.adversaryCard img {
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+.innerCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.link {
+  margin-top: var(--spacing-2);
+  width: fit-content;
+}

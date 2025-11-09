@@ -1,9 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import cyberOrange from "@assets/cyber-orange.jpg";
 import CentredOverlay from "@components/CentredOverlay/CentredOverlay.astro";
 import MapIsland from "@components/MapIsland/MapIsland.astro";
+
+import cyberOrange from "@assets/cyber-orange.jpg";
+import { threatActors } from "@data/threatActors";
+import AdversaryCard from "@components/AdversaryCard/AdversaryCard.astro";
+
 ---
 
 <Layout>
@@ -24,8 +28,10 @@ import MapIsland from "@components/MapIsland/MapIsland.astro";
       </div>
     </CentredOverlay>
   </section>
-  <section>
-    <MapIsland />
+  <MapIsland />
+  <h2 style="text-align: center; margin-top: 24px;">Featured Adversaries</h2>
+  <section class:list={["cardGallery"]}>
+    {threatActors.map((threat) => <AdversaryCard heading={`Threat ${threat.name}`} country="DPRK" src={threat.image} />)}
   </section>
 </Layout>
 
@@ -38,5 +44,12 @@ import MapIsland from "@components/MapIsland/MapIsland.astro";
     flex-direction: column;
     gap: var(--spacing-2);
     max-width: 600px;
+  }
+
+  .cardGallery {
+    display: flex;
+    padding: var(--spacing-2);
+    gap: var(--spacing-4);
+    justify-content: center;
   }
 </style>
