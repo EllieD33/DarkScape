@@ -1,0 +1,144 @@
+---
+import { Leaflet, GeoJson } from "astro-leaflet";
+import type { GeoJsonObject } from "geojson";
+import { threatActors } from "@data/threatActors";
+import worldGeoJsonRaw from "@data/world.geo.json";
+
+const worldGeoJson: GeoJsonObject = worldGeoJsonRaw as unknown as GeoJsonObject;
+---
+
+<section class:list={["grid"]}>
+  <div class:list={["threatActorControl"]}>
+    <label for="actorSelect">Select Threat Actors:</label>
+    <select id="actorSelect" multiple style="min-width: 200px;">
+      {
+        threatActors.map((actor) => (
+          <option value={actor.name}>{actor.name}</option>
+        ))
+      }
+    </select>
+  </div>
+
+  <div>
+    <Leaflet
+      id="world-map"
+      style="width: 100%; height: 80vh; background: var(--color-black); grid-area: 1 / 1;"
+      noDefault
+      options={{
+        center: [20, 0],
+        zoom: 2,
+        mapOptions: {
+          zoomControl: false,
+          dragging: false,
+          scrollWheelZoom: false,
+          doubleClickZoom: false,
+          boxZoom: false,
+          touchZoom: false,
+        },
+      }}
+    >
+      <GeoJson id="geojson-world" geojson={worldGeoJson} />
+    </Leaflet>
+  </div>
+</section>
+
+<script>
+  import { getLeafletFromId } from "astro-leaflet";
+  import { threatActors } from "@data/threatActors";
+  import type { Feature } from "geojson";
+
+  const selectEl = document.getElementById("actorSelect") as HTMLSelectElement;
+  const geojson = getLeafletFromId("geojson-world");
+  const map = getLeafletFromId("world-map");
+
+  let selectedCountries = new Set();
+
+  function updateSelectedCountries() {
+    if (!selectEl) return;
+
+    const selectedActors = Array.from(selectEl.selectedOptions).map(
+      (o) => o.value
+    );
+    selectedCountries = new Set();
+    selectedActors.forEach((name) => {
+      const actor = threatActors.find((a) => a.name === name);
+      if (actor) actor.countries.forEach((c) => selectedCountries.add(c));
+    });
+
+    updateMapColors();
+  }
+
+  function getColor(iso_a3: string) {
+    return selectedCountries.has(iso_a3) ? "#fc7303" : "#f48b34";
+  }
+
+  function getOpacity(iso_a3: string) {
+    return selectedCountries.has(iso_a3) ? 0.9 : 0.4;
+  }
+
+  function styleFeature(feature: Feature) {
+    return {
+      fillColor: getColor(feature.properties?.iso_a3),
+      weight: 1,
+      color: "var(--color-primary)",
+      fillOpacity: getOpacity(feature.properties?.iso_a3),
+    };
+  }
+
+  function updateMapColors() {
+    if (!geojson) return;
+    geojson.setStyle(styleFeature);
+  }
+
+  if (geojson) {
+    updateMapColors();
+  }
+
+  selectEl?.addEventListener("change", updateSelectedCountries);
+</script>
+
+<style>
+  .grid {
+    display: grid;
+    border-top: 3px solid orange;
+    border-bottom: 3px solid orange;
+  }
+
+  .grid > * {
+    grid-area: 1 / 1;
+  }
+
+  .threatActorControl {
+    z-index: 500;
+    width: 200px;
+    height: 300px;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    padding: var(--spacing-4);
+    margin: var(--spacing-4);
+    background-color: rgba(38, 36, 34, 0.772);
+  }
+
+  .threatActorControl select {
+    color: var(--color-white);
+    background-color: transparent;
+    border: none;
+  }
+
+  .threatActorControl option {
+    color: var(--color-white);
+    font-size: 16px;
+    border: none;
+    padding: var(--spacing-half);
+    margin: var(--spacing-half);
+  }
+
+  .threatActorControl option:checked {
+    color: var(--color-black);
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+  }
+</style>

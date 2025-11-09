@@ -9,6 +9,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.15.4"
+    "astro": "^5.15.4",
+    "astro-leaflet": "^1.8.1",
+    "leaflet": "^1.9.4",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.21",
+    "@types/topojson-client": "^3.1.5"
   }
 }

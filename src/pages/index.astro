@@ -1,9 +1,42 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import cyberOrange from "@assets/cyber-orange.jpg";
+import CentredOverlay from "@components/CentredOverlay/CentredOverlay.astro";
+import MapIsland from "@components/MapIsland/MapIsland.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <section>
+    <CentredOverlay>
+      <Image
+        slot="background"
+        src={cyberOrange}
+        alt=""
+        class:list={["fullWidth heroImage"]}
+      />
+      <div slot="foreground" class:list={["heroText"]}>
+        <h2>Know Your Enemies. Strengthen Your Defenses.</h2>
+        <p class:list={["h6"]}>
+          Discover detailed profiles of global threat actors, their tactics, and
+          the industries they target — all in one interactive intelligence hub.
+        </p>
+      </div>
+    </CentredOverlay>
+  </section>
+  <section>
+    <MapIsland />
+  </section>
 </Layout>
+
+<style>
+  .heroImage {
+    opacity: 0.5;
+  }
+  .heroText {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    max-width: 600px;
+  }
+</style>
