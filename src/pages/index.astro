@@ -7,7 +7,6 @@ import MapIsland from "@components/MapIsland/MapIsland.astro";
 import cyberOrange from "@assets/cyber-orange.jpg";
 import { threatActors } from "@data/threatActors";
 import AdversaryCard from "@components/AdversaryCard/AdversaryCard.astro";
-
 ---
 
 <Layout>
@@ -25,13 +24,28 @@ import AdversaryCard from "@components/AdversaryCard/AdversaryCard.astro";
           Discover detailed profiles of global threat actors, their tactics, and
           the industries they target — all in one interactive intelligence hub.
         </p>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" height="32" class:list={["bounce"]}
+          ><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+          <path
+            fill="#feffff"
+            d="M297.4 598.6C309.9 611.1 330.2 611.1 342.7 598.6L470.7 470.6C479.9 461.4 482.6 447.7 477.6 435.7C472.6 423.7 460.9 416 448 416L384 416L384 80C384 53.5 362.5 32 336 32L304 32C277.5 32 256 53.5 256 80L256 416L192 416C179.1 416 167.4 423.8 162.4 435.8C157.4 447.8 160.2 461.5 169.4 470.6L297.4 598.6z"
+          ></path></svg
+        >
       </div>
     </CentredOverlay>
   </section>
   <MapIsland />
   <h2 style="text-align: center; margin-top: 24px;">Featured Adversaries</h2>
   <section class:list={["cardGallery"]}>
-    {threatActors.map((threat) => <AdversaryCard heading={`Threat ${threat.name}`} country="DPRK" src={threat.image} />)}
+    {
+      threatActors.map((threat, i) => (
+        <AdversaryCard
+          heading={`Threat ${threat.name}`}
+          country={i % 2 === 0 ? "DRPK" : "Russia"}
+          src={threat.image}
+        />
+      ))
+    }
   </section>
 </Layout>
 
@@ -39,6 +53,7 @@ import AdversaryCard from "@components/AdversaryCard/AdversaryCard.astro";
   .heroImage {
     opacity: 0.5;
   }
+
   .heroText {
     display: flex;
     flex-direction: column;
@@ -48,8 +63,22 @@ import AdversaryCard from "@components/AdversaryCard/AdversaryCard.astro";
 
   .cardGallery {
     display: flex;
-    padding: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-2) var(--spacing-12);
     gap: var(--spacing-4);
     justify-content: center;
   }
+
+  @keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.bounce {
+  animation: bounce 1.5s ease-in-out infinite;
+  padding-top: 200px;
+}
 </style>
