@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import styles from "./CustomLink.module.css";
+
+interface CustomLinkProps extends HTMLAttributes<"a"> {
+  href: string;
+  variant: "wrapper" | "filled" | "outline" | "ghost";
+  target?: "_blank" | "_self";
+}
+
+const {
+  href,
+  variant,
+  target = "_self",
+  class: className,
+  ...rest
+} = Astro.props as CustomLinkProps;
+---
+
+<a href={href} target={target} rel="noopener noreferrer" class:list={[styles[variant], className]} {...rest}>
+  <slot />
+</a>

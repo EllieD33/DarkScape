@@ -1,0 +1,16 @@
+.grid {
+  display: grid;
+}
+
+.grid > * {
+  grid-area: 1 / 1;
+}
+
+.background {
+  z-index: 1;
+}
+
+.foreground {
+  z-index: 2;
+  margin: auto;
+}

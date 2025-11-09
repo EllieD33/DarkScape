@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import styles from "./CentredOverlay.module.css";
+
+interface CustomLinkProps extends HTMLAttributes<"div"> {}
+
+const { class: className, ...rest } = Astro.props as CustomLinkProps;
+---
+
+<div class:list={[styles.grid]}>
+  <div class:list={[styles.background]}>
+    <slot name="background" />
+  </div>
+  <div class:list={[styles.foreground]}>
+    <slot name="foreground" />
+  </div>
+</div>
