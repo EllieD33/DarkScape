@@ -4,24 +4,97 @@ import { Image } from "astro:assets";
 
 import styles from "./AdversaryCard.module.css";
 
-const { heading, country, src, alt = "", ...rest } = Astro.props;
+const {
+  heading,
+  country,
+  aka,
+  description,
+  activeSince,
+  attackVectors,
+  totalStolen,
+  attacks,
+  src,
+  alt = "",
+  ...rest
+} = Astro.props;
 ---
 
 <article class:list={[styles.adversaryCard]}>
   <Image src={src} alt="" width={400} />
   <div class:list={[styles.innerCard]}>
     <h3>{heading}</h3>
-    <p class:list={["h6", styles.textContainer]}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="24"
-        ><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-        <path
-          fill="#ff9200"
-          d="M128 252.6C128 148.4 214 64 320 64C426 64 512 148.4 512 252.6C512 371.9 391.8 514.9 341.6 569.4C329.8 582.2 310.1 582.2 298.3 569.4C248.1 514.9 127.9 371.9 127.9 252.6zM320 320C355.3 320 384 291.3 384 256C384 220.7 355.3 192 320 192C284.7 192 256 220.7 256 256C256 291.3 284.7 320 320 320z"
-        ></path></svg
-      >{country}
-    </p>
+    {
+      aka && aka.length > 0 && (
+        <p>
+          AKA: <span class:list={[styles.alias]}>{aka.join(" | ")}</span>
+        </p>
+      )
+    }
+    <div class:list={[styles.statsContainer]}>
+      <p class:list={["h6", styles.textContainer]}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="24"
+          ><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+          <path
+            fill="#ff9200"
+            d="M128 252.6C128 148.4 214 64 320 64C426 64 512 148.4 512 252.6C512 371.9 391.8 514.9 341.6 569.4C329.8 582.2 310.1 582.2 298.3 569.4C248.1 514.9 127.9 371.9 127.9 252.6zM320 320C355.3 320 384 291.3 384 256C384 220.7 355.3 192 320 192C284.7 192 256 220.7 256 256C256 291.3 284.7 320 320 320z"
+          ></path></svg
+        >{country}
+      </p>
+      <p class:list={["h6", styles.textContainer]}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="24"
+          ><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+          <path
+            fill="#ff9200"
+            d="M224 64C206.3 64 192 78.3 192 96L192 128L160 128C124.7 128 96 156.7 96 192L96 240L544 240L544 192C544 156.7 515.3 128 480 128L448 128L448 96C448 78.3 433.7 64 416 64C398.3 64 384 78.3 384 96L384 128L256 128L256 96C256 78.3 241.7 64 224 64zM96 288L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 288L96 288z"
+          ></path></svg
+        >{activeSince}
+      </p>
+      <p class:list={["h6", styles.textContainer]}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="24"
+          ><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+          <path
+            fill="#ff9200"
+            d="M296 88C296 74.7 306.7 64 320 64C333.3 64 344 74.7 344 88L344 128L400 128C417.7 128 432 142.3 432 160C432 177.7 417.7 192 400 192L285.1 192C260.2 192 240 212.2 240 237.1C240 259.6 256.5 278.6 278.7 281.8L370.3 294.9C424.1 302.6 464 348.6 464 402.9C464 463.2 415.1 512 354.9 512L344 512L344 552C344 565.3 333.3 576 320 576C306.7 576 296 565.3 296 552L296 512L224 512C206.3 512 192 497.7 192 480C192 462.3 206.3 448 224 448L354.9 448C379.8 448 400 427.8 400 402.9C400 380.4 383.5 361.4 361.3 358.2L269.7 345.1C215.9 337.5 176 291.4 176 237.1C176 176.9 224.9 128 285.1 128L296 128L296 88z"
+          ></path></svg
+        >{totalStolen}
+      </p>
+    </div>
+
+     <div class:list={[styles.latest]}>
+      <p class:list={["h6", styles.textContainer]}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="24"
+          ><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+          <path
+            fill="#ff3c00"
+            d="M512 48C518.9 48 525 52.4 527.2 58.9L540.7 99.3L581.1 112.8C587.6 115 592 121.1 592 128C592 134.9 587.6 141 581.1 143.2L540.7 156.7L527.2 197.1C525 203.6 518.9 208 512 208C505.1 208 499 203.6 496.8 197.1L483.3 156.7L442.9 143.2C436.4 141 432 134.9 432 128C432 121.1 436.4 115 442.9 112.8L483.3 99.3L496.8 58.9C499 52.4 505.1 48 512 48zM353.4 161.4C365.9 148.9 386.2 148.9 398.7 161.4L478.7 241.4C491.2 253.9 491.2 274.2 478.7 286.7L467.8 297.6C475.7 319.6 480 343.3 480 368.1C480 483 386.9 576.1 272 576.1C157.1 576.1 64 482.9 64 368C64 253.1 157.1 160 272 160C296.7 160 320.5 164.3 342.5 172.3L353.4 161.4zM176 368C176 315 219 272 272 272C285.3 272 296 261.3 296 248C296 234.7 285.3 224 272 224C192.5 224 128 288.5 128 368C128 381.3 138.7 392 152 392C165.3 392 176 381.3 176 368z"
+          ></path></svg
+        >{"Latest known attack vector"}
+        </p>
+        <p class:list={[styles.alias]}>{attackVectors.latest}</p>
+    </div>
+
+    <p>{description}</p>
+    <div class:list={[styles.barContainer]}>
+      <span>Activity</span>
+      <div class:list={[styles.progressBar]}>
+        <div class:list={[styles.progStatus]} style="--target:55%;"></div>
+      </div>
+    </div>
+    <div class:list={[styles.barContainer]}>
+      <span>Victims</span>
+      <div class:list={[styles.progressBar]}>
+        <div class:list={[styles.progStatus]} style="--target:25%;"></div>
+      </div>
+    </div>
+    <div class:list={[styles.barContainer]}>
+      <span>Threat</span>
+      <div class:list={[styles.progressBar]}>
+        <div class:list={[styles.progStatus]} style="--target:85%;"></div>
+      </div>
+    </div>
+
     <CustomLink variant="filled" class:list={[styles.link]}
-      >Learn more</CustomLink
+      >Unlock more data</CustomLink
     >
   </div>
 </article>
